@@ -12,4 +12,4 @@ This is a clone of [Hacker news](https://news.ycombinator.com/) with some additi
 * React-router-dom
 
 
-![alt text](https://gfycat.com/gifs/detail/AcademicArcticEarwig)
+![Alt text](https://gfycat.com/gifs/detail/AcademicArcticEarwig)
