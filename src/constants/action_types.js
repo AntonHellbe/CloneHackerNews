@@ -1,0 +1,16 @@
+
+
+export const filterActions = {
+    SEARCH_FOR: 'SEARCH_FOR',
+    FILTER_BY: 'FILTER_BY',
+    DATE_FOR: 'DATE_FOR',
+};
+
+export const searchActions = {
+    SEARCH_REQUESTED: 'SEARCH_REQUESTED',
+    SEARCH_COMPLETE: 'SEARCH_COMPLETE',
+    ARTICLE_SUCCESS: 'ARTICLE_SUCCESS',
+    FETCH_ARTICLE: 'FETCH_ARTICLE',
+    SET_TERM: 'SET_TERM',
+
+};
