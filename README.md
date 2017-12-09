@@ -13,4 +13,5 @@ This is a clone of [Hacker news](https://news.ycombinator.com/) with some additi
 
 
 ### Preview
-![Alt text](https://thumbs.gfycat.com/AcademicArcticEarwig-size_restricted.gif)
+
+<img src="https://media.giphy.com/media/l4EpidT0IoRRtl58Q/giphy.gif">
