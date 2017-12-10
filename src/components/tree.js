@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import { colors } from '../constants/action_types';
 
 
 class Tree extends Component {
 
     render() {
         const data = this.props.data;
-        console.log(data);
+        const style = this.props.depth === 1 ? 
+        { border: 'none', borderLeft: '2px solid #bec1c6' } : 
+        { border: 'none' };
         if (!data && !data.length > 0) return null;
         return (
-            <ListGroup style={ { border: 'none' } }>
+            <ListGroup>
                 { data.map((item) => {
                     if (!item.text) return null;
+                    console.log(item);
                     return (
-                        <ListGroupItem style={ { border: 'none' } }>
+                        <ListGroupItem style={ style }>
                             <p
                                 className="text-muted"
                                 style={ { fontSize: '80%' } }
@@ -23,12 +27,17 @@ class Tree extends Component {
                             </p>
                             <p 
                             dangerouslySetInnerHTML={ { __html: item.text } } 
-                            style={ { borderLeft: '2px dotted #bec1c6', paddingLeft: '7px' } } 
+                            style={ { borderLeft: `2px solid ${colors[(this.props.depth % colors.length)]}`, // eslint-disable-line
+                            paddingLeft: '7px' } } 
                             />
                             <p className="text-muted">
                                 { item.points }
                             </p>
-                            { item.children.length > 0 && <Tree data={ item.children } /> }
+                            {item.children.length > 0 && 
+                            <Tree 
+                            data={ item.children } 
+                            depth={ this.props.depth + 1 } 
+                            /> }
                     </ListGroupItem>
                     );
                     

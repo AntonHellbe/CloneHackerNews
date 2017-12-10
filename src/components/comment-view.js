@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
+import moment from 'moment';
+import { Container, Row, Col, Card, CardBody, CardTitle, CardSubtitle, CardText } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchArticle } from '../actions/actions_search';
 import { activeArticleSelector, statusFetch } from '../selectors/search_selector';
@@ -13,18 +14,26 @@ class CommentView extends Component {
     }
 
     renderArticle(article) {
-        // console.log(article);
-        const { title, url } = article;
+        console.log(article);
+        const { title, url = 'No link', created_at, points } = article;
         return (
             <div>
-                <Card>
+                <Card style={ { border: 'none' } }>
                     <CardBody>
                         <CardTitle>
                             { title }
                         </CardTitle>
                         <CardSubtitle>
+                            <a href={ url }>
                             { url }
+                            </a>
                         </CardSubtitle>
+                        <CardText>
+                            <small className="text-muted">
+                                {moment(created_at).format('Do MMMM')}, Points : {points}
+                            </small>
+                        </CardText>
+                        <hr />
                     </CardBody>
                 </Card>
             </div>
@@ -50,7 +59,7 @@ class CommentView extends Component {
                         >
                             { this.renderArticle(this.props.article) }
                             
-                            <Tree data={ this.props.article.children } />
+                                <Tree data={ this.props.article.children } depth={ 0 } />
                         
 
                         </Col>

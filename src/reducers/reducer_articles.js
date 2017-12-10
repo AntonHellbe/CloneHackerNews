@@ -9,8 +9,8 @@ const INITIAL_STATE = {
 
 const articlesReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case searchActions.SEARCH_REQUESTED:
-            return { ...state, term: action.payload };
+        case searchActions.SET_TERM:
+            return { ...state, term: action.term };
 
         case searchActions.SEARCH_COMPLETE:
             return { ...state, articleList: action.articles };

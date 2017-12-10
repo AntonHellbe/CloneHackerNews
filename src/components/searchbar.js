@@ -2,19 +2,25 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { Form, FormGroup, Input, InputGroup, InputGroupAddon, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
-import { searchRequested } from '../actions/actions_search';
+import { searchRequested, setTerm } from '../actions/actions_search';
 
 
 class SearchBar extends Component {
 
     constructor(props) {
         super(props);
-        this.onInputChangeThrottle = 
-        _.throttle((term) => this.props.searchRequested(term, this.props.searchFor), 300);
+        this.searchThrottled =
+        _.throttle(() => this.props.searchRequested(this.props.term, this.props.searchFor), 300);
     }
 
     onInputChange = (e) => {
-        this.onInputChangeThrottle(e.target.value);
+        const val = e.target.value;
+        this.props.setTerm(val);
+        this.searchThrottled();
+    }
+
+    search = () => {
+        this.props.searchRequested(this.props.term, this.props.searchFor);
     }
     
     render() {
@@ -26,7 +32,8 @@ class SearchBar extends Component {
                             <InputGroup>
                                 <Input 
                                 type="text" 
-                                onChange={ this.onInputChange } 
+                                onChange={ this.onInputChange }
+                                value={ this.props.term }
                                 />
                                 <InputGroupAddon>&#128269;</InputGroupAddon>
                             </InputGroup>
@@ -41,11 +48,16 @@ class SearchBar extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
     searchRequested: (term, searchFor) => 
-    dispatch(searchRequested(term, searchFor))
+    dispatch(searchRequested(term, searchFor)),
+    setTerm: (term) => dispatch(setTerm(term))
 });
 
-const mapStateToProps = (state) => ({
-    searchFor: state.filters.searchFor
-});
+const mapStateToProps = (state) => {
+    // console.log(state.articles);
+    return {
+        searchFor: state.filters.searchFor,
+        term: state.articles.term
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

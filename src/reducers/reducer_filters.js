@@ -3,8 +3,8 @@ import { filterActions } from '../constants/action_types';
 
 const INITIAL_STATE = {
     filterBy: 'Popularity',
-    time: moment(0),
-    searchFor: '(story,comment)'
+    time: moment(0).valueOf(),
+    searchFor: 'story'
 };
 
 const filtersReducer = (state = INITIAL_STATE, action) => {

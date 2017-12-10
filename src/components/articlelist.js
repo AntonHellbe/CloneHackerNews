@@ -9,7 +9,9 @@ class ArticleList extends Component {
 
 
     componentWillMount() {
-        this.props.defaultSearch();
+        if (this.props.articles.length === 0) {
+            this.props.defaultSearch(this.props.term);
+        }
     }
     
     render() {
@@ -32,11 +34,12 @@ class ArticleList extends Component {
 
 const mapStateToProps = (state) => ({
     articles: filterSelector(state.articles.articleList, state.filters),
-    searchFor: state.articles.searchFor
+    searchFor: state.filters.searchFor,
+    term: state.articles.term,
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
-    defaultSearch: () => dispatch(defaultSearch(props.searchFor)),
+const mapDispatchToProps = (dispatch) => ({
+    defaultSearch: (term) => dispatch(defaultSearch(term)),    
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticleList);

@@ -12,6 +12,7 @@ const TAGS = '&tags=';
 
 
 export function* search({ term, searchFor }) {
+    console.log(term, searchFor);
     const SEARCH_URL = `${PATH_BASE}${PATH_SEARCH}${PARAM_QUERY}${term}${TAGS}${searchFor}`;
     try {
         const data = yield call(axios.get, SEARCH_URL);

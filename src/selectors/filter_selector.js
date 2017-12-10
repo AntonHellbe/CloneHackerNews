@@ -1,4 +1,4 @@
-
+import moment from 'moment';
 
 export const filterSelector = (articles, { filterBy, time }) => {
     return articles.filter((article) => {
@@ -15,4 +15,21 @@ export const filterSelector = (articles, { filterBy, time }) => {
         return 0;
     });
 
+};
+
+export const mapFiltersToValues = ({ filterBy, time, searchFor }) => {
+    const values = {};
+
+    values.filterBy = filterBy;
+    values.searchFor = searchFor;
+    
+    if (time === moment(0).valueOf()) {
+        values.time = 'All time';
+    } else if (time < moment().subtract(8, 'days').valueOf()) {
+        values.time = 'Last 24h';
+    } else if (time < moment().subtract(4, 'days').valueOf()) {
+        values.time = 'Past Week';
+    }
+
+    return values;
 };

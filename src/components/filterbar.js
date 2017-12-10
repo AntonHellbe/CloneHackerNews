@@ -7,6 +7,7 @@ import { filterByDate,
      setTimeSpan,
      setSearchFor } from '../actions/actions_filters';
 import { searchRequested } from '../actions/actions_search';
+import { mapFiltersToValues } from '../selectors/filter_selector';
 
 
 class FilterBar extends Component {
@@ -26,7 +27,7 @@ class FilterBar extends Component {
         let currentTime = moment();
         switch (selection) {
             case 'All time':
-                currentTime = moment(0);
+                currentTime = moment(0).valueOf();
                 break;
             case 'Last 24h':
                 currentTime = currentTime.subtract(24, 'hours').valueOf();
@@ -42,8 +43,7 @@ class FilterBar extends Component {
     }
 
     onSearchFilterChange = (e) => {
-        const name = e.target.options[e.target.selectedIndex].getAttribute('name');
-        console.log(name);
+        const name = e.target.value;
         this.props.setSearchFor(name);
         this.props.searchRequested(this.props.term, name);
 
@@ -67,34 +67,45 @@ class FilterBar extends Component {
                             type="select" 
                             name="selectMulti" 
                             id="search" 
+                            value={ this.props.filters.searchFor }
                             onChange={ this.onSearchFilterChange }
                             >
-                                <option name="story">Stories</option>
-                                <option name="(story, comment)">All</option>
-                                <option name="comment">Comments</option>
+                                <option value="story">Stories</option>
+                                <option value="(story, comment)">All</option>
+                                <option value="comment">Comments</option>
                             </Input>
                         </InputGroup >
 
                         <InputGroup 
                         style={ { marginRight: '10px' } } 
-                        onChange={ this.onFilterChange }
                         >
                             <Label for="by" style={ { marginRight: '5px' } }>by </Label>
-                            <Input type="select" name="by" id="by">
-                                <option>Popularity</option>
-                                <option>Date</option>
+                            <Input 
+                            type="select" 
+                            name="by" 
+                            id="by" 
+                            value={ this.props.filterBy } 
+                            onChange={ this.onFilterChange }
+                            >
+                                <option value="Popularity">Popularity</option>
+                                <option value="Date">Date</option>
                             </Input>
                         </InputGroup>
                         
                         <InputGroup 
                         style={ { marginRight: '10px' } } 
-                        onChange={ this.onDateFilterChange }
                         >
                             <Label for="for" style={ { marginRight: '5px' } }>For</Label>
-                            <Input type="select" name="selectMulti" id="for">
-                                <option>All time</option>
-                                <option>Last 24h</option>
-                                <option>Past Week</option>
+                            <Input 
+                            type="select" 
+                            name="selectMulti" 
+                            id="for" 
+                            value={ this.props.filters.time }
+                            onChange={ this.onDateFilterChange }
+                            >
+                                <option value="All time">All time</option>
+                                <option value="Last 24h">Last 24h</option>
+                                <option value="Past Week">Past Week</option>
                             </Input>
                             
                         </InputGroup>
@@ -115,7 +126,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-    term: state.articles.search
+    term: state.articles.term,
+    filters: mapFiltersToValues(state.filters)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterBar);

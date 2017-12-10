@@ -24,11 +24,13 @@ export const searchComplete = (articles) => ({
 
 });
 
-export const defaultSearch = () => ({
-    type: searchActions.SEARCH_REQUESTED,
-    term: 'redux',
-    searchFor: '(story,comment)'
-});
+export const defaultSearch = (term) => {
+    return {
+        type: searchActions.SEARCH_REQUESTED,
+        term,
+        searchFor: 'front_page'
+    };
+};
 
 
 export const fetchArticle = (id) => ({
@@ -40,3 +42,16 @@ export const articleSuccess = (article) => ({
     type: searchActions.ARTICLE_SUCCESS,
     article
 });
+
+
+export const fetchTopComments = () => ({
+    type: searchActions.FRONT_PAGE,
+
+});
+
+export const fetchFrontPage = () => ({
+    type: searchActions.SEARCH_REQUESTED,
+    term: '',
+    searchFor: 'front_page'
+});
+

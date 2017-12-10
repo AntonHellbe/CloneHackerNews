@@ -1,35 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, NavbarBrand, NavItem, Nav, NavLink } from 'reactstrap';
+import { connect } from 'react-redux';
+import { fetchFrontPage } from '../actions/actions_search';
+import '../styles/header.scss';
 
-const Header = () => (
+const Header = (props) => (
     <Navbar 
-        style={ {
-            backgroundColor: '#cdcfd3', 
+    style={ {
+    backgroundColor: '#cdcfd3', 
     height: '58px', 
     marginBottom: '20px', 
     borderBottom: '3px solid #e5e7ea' } } 
     light expand="md"
     >
-            <NavbarBrand><NavLink to="/"> News </NavLink> 
+            <NavbarBrand tag={ Link } to="/"> News
             </NavbarBrand>
                 <Nav className="m1-auto" style={ { paddingLeft: '100px' } } navbar>
-                <NavItem>
-                    <NavLink 
-                    tag={ Link } 
-                    to="/" 
-                    style={ { paddingLeft: '20px' } }
-                    > 
-                    Top articles 
-                    </NavLink>
-                </NavItem>
+                <NavItem />
+                
                 <NavItem>
                     <NavLink 
                     tag={ Link } 
                     to="/" 
                     style={ { paddingLeft: '40px' } }
+                    onClick={ props.fetchFrontPage }
                     > 
-                    Top Comments 
+                    Front Page
                     </NavLink>
                 </NavItem>
                 <NavItem>
@@ -45,4 +42,8 @@ const Header = () => (
         </Navbar>
 );
 
-export default Header;
+const mapDispatchToProps = (dispatch) => ({
+    fetchFrontPage: () => dispatch(fetchFrontPage())
+});
+
+export default connect(null, mapDispatchToProps)(Header);
